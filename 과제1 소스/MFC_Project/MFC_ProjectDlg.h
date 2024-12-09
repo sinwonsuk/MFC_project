@@ -46,22 +46,25 @@ public:
 	int GetStartPosY() { return m_nStartPosY; }
 	int GetEndPosX() { return m_nEndPosX; }
 	int GetEndPosY() { return m_EndPosY; }
+	
 	bool inspectCircle();
-
 
 private:
 	void Wait(DWORD dwMillisecond);
 	void Init();
 	void Save(int num);
 	CString Load();
-	void FindCenterposOpenCV(CString strPathName, double& dCenterX, double& dCentery);
 	void FindCenterpos(double& dCenterX, double& dCentery);
-
-
 	void scratch_X(double dCenterX, double dCentery);
+
+private:
+
+	bool m_IsMoving = false;
 	int m_nStartPosX;
 	int m_nStartPosY;
 	int m_nEndPosX;
 	int m_EndPosY;
-	
+
+public:
+	afx_msg void OnDestroy();
 };

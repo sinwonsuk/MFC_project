@@ -18,19 +18,15 @@ ImageDialog::ImageDialog(CWnd* pParent /*=nullptr*/)
 	m_pParentDialog = pParent;
 }
 
-
 ImageDialog::~ImageDialog()
 {
 }
-
-
 
 void ImageDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_STATIC_TEXT, m_CenterPos);
 }
-
 
 BEGIN_MESSAGE_MAP(ImageDialog, CDialogEx)
 	ON_WM_PAINT()
@@ -41,7 +37,6 @@ END_MESSAGE_MAP()
 
 
 // Image_Dialog 메시지 처리기
-
 
 BOOL ImageDialog::OnInitDialog()
 {
@@ -79,21 +74,29 @@ void ImageDialog::DrawCircleRandom(int startpos_x, int startpos_y)
 {
 	m_CircleRectCheck = true;
 
-	int nRandom = m_Image.GetHeight();
+	int nRandom = 100;
 
 	// 랜덤한 크기
-	int nSizeX = rand() % nRandom + 20;
-	int nSizeY = rand() % nRandom + 20;
+	int nSize = rand() % nRandom + 10;
+	int n_Width = m_Image.GetWidth();
+	int n_Height = m_Image.GetHeight();
 
-	m_rtCircleRect.SetRect(0, 0, nSizeX, nSizeY);
+	int n_CenterPosX = startpos_x - nSize / 2;
+	int n_CenterPosY = startpos_y - nSize / 2;
 
+	m_rtCircleRect.SetRect(0, 0, nSize, nSize);
+
+	if (n_CenterPosX < 0 || n_CenterPosX > n_Width || n_CenterPosY < 0 || n_CenterPosY > n_Height) {
+		ClearEllipse();
+		AfxMessageBox(L"화면밖을 넘어갔습니다");
+		return;
+	}	
 	// 중심점으로 이동 
 	// ex) startpos_x = 0,startpos_y = 0,size_x = 50,size_y =50
 	// 이라면 Rect를 size_x/2 를 왼쪽으로 이동 size_y/2를 위로 이동시켜 중심점을 구함
 
-	m_rtCircleRect.MoveToX(startpos_x - nSizeX / 2);
-	m_rtCircleRect.MoveToY(startpos_y - nSizeY / 2);
-
+	m_rtCircleRect.MoveToX(n_CenterPosX);
+	m_rtCircleRect.MoveToY(n_CenterPosY);
 	// OnPaint() 화면 갱신 요청
 	Invalidate();
 }
@@ -104,7 +107,6 @@ void ImageDialog::ClearEllipse()
 	Invalidate();           // 화면 갱신 요청
 }
 
-
 void ImageDialog::OnPaint()
 {
 	CPaintDC dc(this);
@@ -114,7 +116,7 @@ void ImageDialog::OnPaint()
 	// True 일떄만 원 그리기 
 	if (m_CircleRectCheck) {
 		dc.Ellipse(m_rtCircleRect);
-	}
+	}	
 }
 
 void ImageDialog::MoveCircle()
@@ -132,26 +134,19 @@ void ImageDialog::MoveCircle()
 
 	Normalize();
 
-	// 형변환
+	// 이미지 초기화 
 	unsigned char* fm = (unsigned char*)m_Image.GetBits();
-
-	// 초기화 
 	for (size_t y = 0; y < m_Image.GetHeight(); y++) {
 		for (size_t x = 0; x < m_Image.GetWidth(); x++)
-		{
 			fm[y * pitch + x] = 0;
-		}
 	}
 
 	CreateCircle(nStartposX, nStartposY, fm, pitch);
-
 	Invalidate(false);
 }
-
-
-
-
-
+/// <summary>
+/// 반지름 보다 크기가 큰 픽셀은 return false 하는 함수 
+/// </summary>
 bool ImageDialog::IsInnerCircle(int nX, int nY, int nRadius, int nCenterX, int nCenterY)
 {
 	if (nX < 0) 

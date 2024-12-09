@@ -12,8 +12,6 @@
 #include <string>
 #include "atlimage.h"
 #include <iostream>
-//#include <opencv2/opencv.hpp>
-//using namespace cv;
 using namespace std;
 
 #ifdef _DEBUG
@@ -87,6 +85,7 @@ BEGIN_MESSAGE_MAP(CMFCProjectDlg, CDialogEx)
 //	ON_WM_ERASEBKGND()
 ON_BN_CLICKED(IDC_BTN_OPEN, &CMFCProjectDlg::OnBnClickedBtnOpen)
 
+ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CMFCProjectDlg 메시지 처리기
@@ -175,19 +174,23 @@ HCURSOR CMFCProjectDlg::OnQueryDragIcon()
 }
 
 void CMFCProjectDlg::OnEnChangeStartPosX()
-{
+{	
+	if(m_IsMoving==false)
 	UpdateData(true);
 }
 void CMFCProjectDlg::OnEnChangeStartPosY()
 {
+	if (m_IsMoving == false)
 	UpdateData(true);
 }
 void CMFCProjectDlg::OnEnChangeEndPosX()
 {
+	if (m_IsMoving == false)
 	UpdateData(true);
 }
 void CMFCProjectDlg::OnEnChangeEndPosY()
 {
+	if (m_IsMoving == false)
 	UpdateData(true);
 }
 
@@ -211,6 +214,8 @@ void CMFCProjectDlg::OnBnClickedBtnMove()
 
 	while (true) {	
 
+		m_IsMoving = true;
+
 		float nCurrentposY = m_pImageDialog->GetCircleMoveY()+ m_nStartPosY;
 
 		float nCurrentPosX = m_pImageDialog->GetCircleMoveX()+ m_nStartPosX;
@@ -225,15 +230,16 @@ void CMFCProjectDlg::OnBnClickedBtnMove()
 		// 이미지 저장 
 		Save(nNum);
 
-		// sleep 함수 오류로 인해 바꿈
+		
 		Wait(10);
 		nNum++;
-
 	}
 	// 초기화 
 	m_pImageDialog->SetCircleMoveX(0);
 	m_pImageDialog->SetCircleMoveY(0);
+	m_IsMoving = false;
 }
+
 void CMFCProjectDlg::Wait(DWORD dwMillisecond)
 {
 	MSG msg;
@@ -249,7 +255,6 @@ void CMFCProjectDlg::Wait(DWORD dwMillisecond)
 	}
 }
 
-
 void CMFCProjectDlg::OnBnClickedBtnOpen()
 {
 	CString strPathName = Load();
@@ -257,9 +262,10 @@ void CMFCProjectDlg::OnBnClickedBtnOpen()
 	m_pImageDialog->InitCenterPosText();
 
 	if (m_pImageDialog->m_Image != nullptr && strPathName != L"") {		
+
 		double dCenterX = 0;
 		double dCenterY = 0;
-		//FindCenterposOpenCV(strPathName, dCenterX, dCenterY);
+
 		if (inspectCircle() == true){
 			FindCenterpos(dCenterX, dCenterY);
 			scratch_X(dCenterX, dCenterY);
@@ -270,10 +276,12 @@ void CMFCProjectDlg::OnBnClickedBtnOpen()
 
 bool CMFCProjectDlg::inspectCircle()
 {
+	// 원인지 아닌지 검사하는 함수 
 	int n_Width = m_pImageDialog->m_Image.GetWidth();
 	int n_Height = m_pImageDialog->m_Image.GetHeight();
 	int n_Pitch = m_pImageDialog->m_Image.GetPitch();
 	int n_Radius = m_pImageDialog->GetDiameter()/2;
+	// 원의 넓이 
 	int n_CircleArea = n_Radius * n_Radius * 3.14;
 
 	unsigned char* fm = (unsigned char*)m_pImageDialog->m_Image.GetBits();
@@ -281,6 +289,7 @@ bool CMFCProjectDlg::inspectCircle()
 	int n_Check = 0;
 	int n_Persent = 0;
 
+	// 픽셀수 계산 
 	for (size_t y = 0; y < n_Height; y++) {
 		for (size_t x = 0; x < n_Width; x++) {
 			if (fm[y * n_Pitch + x] > 128)
@@ -288,10 +297,10 @@ bool CMFCProjectDlg::inspectCircle()
 		}
 	}
 	
-	//95퍼센트 일치하면
+	//원의 넓이와 픽셀수가 95퍼센트 일치하면 true
 	if (n_Check >= n_CircleArea *0.95)
 		return true;
-	else{
+	else {
 		AfxMessageBox(_T("원이 아닙니다"));
 		return false;
 	}	
@@ -337,7 +346,6 @@ CString CMFCProjectDlg::Load()
 		{
 			m_pImageDialog->m_Image.Destroy();
 		}
-
 		// 새 이미지 로드
 		m_pImageDialog->m_Image.Load(strPathName);
 
@@ -345,59 +353,6 @@ CString CMFCProjectDlg::Load()
 	}
 
 	return strPathName;
-
-}
-
-void CMFCProjectDlg::FindCenterposOpenCV(CString strPathName, double&dCenterX, double& dCentery)
-{
-	//CString cStr = strPathName;
-	//CT2CA convertedString(cStr);
-
-	//std::string str = std::string(convertedString);
-
-	//// 입력 이미지 로드
-	//Mat image = imread(str, IMREAD_GRAYSCALE);
-	//if (image.empty()) {
-	//	cout << "Image not found!" << endl;
-	//	return;
-	//}
-
-	//// 블러 처리
-	//Mat blurred;
-	//GaussianBlur(image, blurred, Size(9, 9), 2);
-
-	//// HoughCircles로 원 탐지
-	//vector<Vec3f> circles;
-	//HoughCircles(blurred, circles, HOUGH_GRADIENT, 1, 30, 150, 30);
-
-	////잘린 원 중심 좌표 저장
-	//vector<Point> cutCircleCenters;
-
-	//for (size_t i = 0; i < circles.size(); i++) {
-	//	float x = circles[i][0];
-	//	float y = circles[i][1];
-	//	float r = circles[i][2];
-
-	//	// 원의 경계 비율 계산
-	//	int totalPixels = 0, validPixels = 0;
-	//	for (int theta = 0; theta < 360; theta++) {
-	//		int xi = x + r * cos(theta * CV_PI / 180.0);
-	//		int yi = y + r * sin(theta * CV_PI / 180.0);
-	//		totalPixels++;
-	//		if (xi >= 0 && xi < image.cols && yi >= 0 && yi < image.rows) {
-	//			validPixels++;
-	//		}
-	//	}
-	//	cutCircleCenters.push_back(Point(cvRound(x), cvRound(y)));
-	//}
-	//// 결과 출력
-	//cout << "원 중심 좌표: " << endl;
-	//for (const auto& center : cutCircleCenters) {
-	//	cout << "x: " << center.x << ", y: " << center.y << endl;
-	//	dCenterX = center.x;
-	//	dCentery = center.y;
-	//}
-
 }
 
 void CMFCProjectDlg::FindCenterpos(double& dCenterX, double& dCenterY)
@@ -414,6 +369,8 @@ void CMFCProjectDlg::FindCenterpos(double& dCenterX, double& dCenterY)
 
 	CRect rect(0, 0, nWidth, nHeight);
 
+
+	// 128 이상의 색상의 모든 x ,y 좌표를 더해준다.
 	for (int j = rect.top; j < rect.bottom; j++) {
 		for (int i = rect.left; i < rect.right; i++) {
 			if (fm[j * nPitch + i] > nTh) {
@@ -423,7 +380,7 @@ void CMFCProjectDlg::FindCenterpos(double& dCenterX, double& dCenterY)
 			}
 		}
 	}
-
+	// 모든 더해진 좌표의 nCount를 나누어서 중간 좌표를 찾는다. 
 	dCenterX = (double)nSumX / nCount;
 	dCenterY = (double)nSumY / nCount;
 
@@ -435,7 +392,6 @@ void CMFCProjectDlg::FindCenterpos(double& dCenterX, double& dCenterY)
 void CMFCProjectDlg::scratch_X(double dCenterX, double dCentery)
 {
 	unsigned char* fm = (unsigned char*)m_pImageDialog->m_Image.GetBits();
-
 	int nWidth = m_pImageDialog->m_Image.GetWidth();
 	int nHeight = m_pImageDialog->m_Image.GetHeight();
 	int nPitch = m_pImageDialog->m_Image.GetPitch();
@@ -450,7 +406,6 @@ void CMFCProjectDlg::scratch_X(double dCenterX, double dCentery)
 		    continue;	
 		if (dCentery + i > nHeight)
 			continue;
-
 		fm[static_cast<int>(dCentery + i) * nPitch + static_cast<int>(dCenterX + i)] = 0;
 	}
 
@@ -462,11 +417,14 @@ void CMFCProjectDlg::scratch_X(double dCenterX, double dCentery)
 		if (dCenterX + i > nWidth ) 
 			continue;	
 		if (dCentery - i > nHeight) 
-			continue;
-		
+			continue;		
 		fm[static_cast<int>(dCentery - i) * nPitch + static_cast<int>(dCenterX + i)] = 0;
 	}
 }
 
+void CMFCProjectDlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
 
-
+	delete m_pImageDialog;
+}
