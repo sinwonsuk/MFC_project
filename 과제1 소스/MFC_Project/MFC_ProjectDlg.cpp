@@ -220,7 +220,6 @@ void CMFCProjectDlg::OnBnClickedBtnMove()
 			break;
 		}
 
-		// 이미지 그림 
 		m_pImageDialog->MoveCircle();
 		
 		// 이미지 저장 
@@ -230,10 +229,6 @@ void CMFCProjectDlg::OnBnClickedBtnMove()
 		Wait(10);
 		nNum++;
 
-		if (nNum == 1000)
-		{
-			int a = 0;
-		}
 	}
 	// 초기화 
 	m_pImageDialog->SetCircleMoveX(0);
@@ -261,8 +256,7 @@ void CMFCProjectDlg::OnBnClickedBtnOpen()
 
 	m_pImageDialog->InitCenterPosText();
 
-	if (m_pImageDialog->m_Image != nullptr && strPathName != L"") {
-		
+	if (m_pImageDialog->m_Image != nullptr && strPathName != L"") {		
 		double dCenterX = 0;
 		double dCenterY = 0;
 		//FindCenterposOpenCV(strPathName, dCenterX, dCenterY);
@@ -279,25 +273,18 @@ bool CMFCProjectDlg::inspectCircle()
 	int n_Width = m_pImageDialog->m_Image.GetWidth();
 	int n_Height = m_pImageDialog->m_Image.GetHeight();
 	int n_Pitch = m_pImageDialog->m_Image.GetPitch();
-
-
-
 	int n_Radius = m_pImageDialog->GetDiameter()/2;
-
 	int n_CircleArea = n_Radius * n_Radius * 3.14;
-
 
 	unsigned char* fm = (unsigned char*)m_pImageDialog->m_Image.GetBits();
 
 	int n_Check = 0;
-
 	int n_Persent = 0;
 
 	for (size_t y = 0; y < n_Height; y++) {
 		for (size_t x = 0; x < n_Width; x++) {
 			if (fm[y * n_Pitch + x] > 128)
-				n_Check++;
-			
+				n_Check++;			
 		}
 	}
 	
@@ -424,7 +411,9 @@ void CMFCProjectDlg::FindCenterpos(double& dCenterX, double& dCenterY)
 	int nSumX = 0;
 	int nSumY = 0;
 	int nCount = 0;
+
 	CRect rect(0, 0, nWidth, nHeight);
+
 	for (int j = rect.top; j < rect.bottom; j++) {
 		for (int i = rect.left; i < rect.right; i++) {
 			if (fm[j * nPitch + i] > nTh) {

@@ -127,7 +127,7 @@ void ImageDialog::MoveCircle()
 	int endpos_x = parent->GetEndPosX();
 	int endpos_y = parent->GetEndPosY();
 
-	int pitch = m_Image.GetPitch(); // 한 행의 메모리 크기
+	int pitch = m_Image.GetPitch(); 
 	int height = m_Image.GetHeight();    // 이미지 높이
 
 	Normalize();
