@@ -1,24 +1,40 @@
-﻿  Image_Dialog.cpp
-C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(189,18): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  pch.cpp
+  Image_Dialog.cpp
+C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(182,18): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Image_Dialog.cpp'을(를) 컴파일하는 중)
   
-C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(210,68): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(203,68): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Image_Dialog.cpp'을(를) 컴파일하는 중)
   
-C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(210,50): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(203,50): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Image_Dialog.cpp'을(를) 컴파일하는 중)
   
-C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(241,12): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(234,12): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Image_Dialog.cpp'을(를) 컴파일하는 중)
   
-C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(242,12): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(235,12): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Image_Dialog.cpp'을(를) 컴파일하는 중)
   
-C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(246,16): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(239,16): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Image_Dialog.cpp'을(를) 컴파일하는 중)
   
-C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(247,16): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\MFC_project\과제1 소스\MFC_Project\Image_Dialog.cpp(240,16): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/Image_Dialog.cpp'을(를) 컴파일하는 중)
   
+  MFC_Project.cpp
+  MFC_ProjectDlg.cpp
+C:\MFC_project\과제1 소스\MFC_Project\MFC_ProjectDlg.cpp(247,26): warning C4244: '=': 'ULONGLONG'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/MFC_ProjectDlg.cpp'을(를) 컴파일하는 중)
+  
+C:\MFC_project\과제1 소스\MFC_Project\MFC_ProjectDlg.cpp(272,44): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/MFC_ProjectDlg.cpp'을(를) 컴파일하는 중)
+  
+C:\MFC_project\과제1 소스\MFC_Project\MFC_ProjectDlg.cpp(272,34): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/MFC_ProjectDlg.cpp'을(를) 컴파일하는 중)
+  
+C:\MFC_project\과제1 소스\MFC_Project\MFC_ProjectDlg.cpp(285,19): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/MFC_ProjectDlg.cpp'을(를) 컴파일하는 중)
+  
+  코드를 생성하고 있습니다...
 MFC_ProjectDlg.obj : warning LNK4258: '/entry:WinMainCRTStartup' 지시문은 '/ENTRY:wWinMainCRTStartup' 스위치와 호환되지 않습니다. 무시됩니다.
   MFC_Project.vcxproj -> C:\MFC_project\과제1 소스\x64\Debug\MFC_Project.exe
