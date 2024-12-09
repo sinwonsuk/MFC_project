@@ -261,7 +261,7 @@ void CMFCProjectDlg::OnBnClickedBtnOpen()
 
 	m_pImageDialog->InitCenterPosText();
 
-	if (m_pImageDialog->m_Image != nullptr){			
+	if (m_pImageDialog->m_Image != nullptr && strPathName != L"") {
 		
 		double dCenterX = 0;
 		double dCenterY = 0;
