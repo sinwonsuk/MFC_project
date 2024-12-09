@@ -1,0 +1,33 @@
+
+// 문제 4 더 크게 합치기
+
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int a, int b)
+{
+    string n_StrA = to_string(a);
+    string n_StrB = to_string(b);
+
+    int n_Answer = 0;
+
+    string n_Result = n_StrA + n_StrB;
+
+    int n_NumA = stoi(n_Result);
+
+    n_Result = n_StrB + n_StrA;
+
+    int n_NumB = stoi(n_Result);
+
+    if (n_NumA > n_NumB)
+    {
+        n_Answer = n_NumA;
+    }
+    else
+    {
+        n_Answer = n_NumB;
+    }
+    return n_Answer;
+}
